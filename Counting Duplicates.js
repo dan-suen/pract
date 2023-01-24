@@ -10,21 +10,19 @@
 // "aA11" -> 2 # 'a' and '1'
 // "ABBA" -> 2 # 'A' and 'B' each occur twice
 
+
 function duplicateCount(text){
+  let obj = {}
   let array = text.toLowerCase().split("")
-  let obj = {};
-  for (let each of array) {
-    if (obj[each]){
-      obj[each] ++;
-    } else {
-      obj[each] = 1;
+  for (let i = 0; i < array.length; i ++) {
+    obj[array[i]] ? obj[array[i]] ++ : obj[array[i]] = 1
+  }
+  
+  let counter = 0
+  for (each in obj) {
+    if (obj[each] > 1){
+      counter ++
     }
   }
-  let count = 0;
-  for (let key in obj){
-    if (obj[key] > 1){
-      count ++
-    }
-  }
-  return count;
+  return counter
 }
