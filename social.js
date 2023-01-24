@@ -1,7 +1,7 @@
 const data = {
   f01: {
     name: "Alice",
-    age: 15,
+    age: 45,
     follows: ["f02", "f03", "f04"]
   },
   f02: {
@@ -12,7 +12,7 @@ const data = {
   f03: {
     name: "Charlie",
     age: 35,
-    follows: ["f01", "f04", "f05", "f06"]
+    follows: ["f01", "f02", "f04", "f05", "f06"]
   },
   f04: {
     name: "Debbie",
@@ -79,25 +79,73 @@ function printAll(items) {
 // console.log(printAll(data))
 
 
-function unrequitedFollowers(items) {
-  let info = printAll(items);
-  //obj version
-  // let obj = {}
-  // for (let each in info) {
-  //   let follows = info[each].follows
-  //   let followedBy = info[each].followedBy
-  //   obj[each] = follows.filter(element => !followedBy.includes(element))
-  // }
-  // return obj
+// function unrequitedFollowers(items) {
+//   let info = printAll(items);
+//   //obj version
+//   // let obj = {}
+//   // for (let each in info) {
+//   //   let follows = info[each].follows
+//   //   let followedBy = info[each].followedBy
+//   //   obj[each] = follows.filter(element => !followedBy.includes(element))
+//   // }
+//   // return obj
 
-  //array version
-  let array = []
+//   //array version
+//   let array = []
+//   for (let each in info) {
+//     let follows = info[each].follows
+//     let followedBy = info[each].followedBy
+//     if (follows.filter(element => !followedBy.includes(element)).length > 0)
+//     array.push(each) 
+//   }
+//   return array
+// }
+// console.log(unrequitedFollowers(data))
+
+
+// function followersOver30 (items) {
+//   let info = printAll(items)
+//   let ages = {}
+//   for (let each in items) {
+//     ages[items[each].name] = items[each].age 
+//   }
+//   let obj = {}
+//   for (let each in info) {
+//     obj[each] = info[each].followedBy.map(element => ages[element] > 30 ? 1 : 0).reduce((a,b)=> a+b)
+//   }
+//   return Object.keys(obj).filter(element => obj[element] === Math.max(...Object.values(obj)))[0];
+// }
+
+
+
+// console.log(followersOver30(data))
+
+// function followsOver30 (items) {
+//   let info = printAll(items)
+//   let ages = {}
+//   for (let each in items) {
+//     ages[items[each].name] = items[each].age 
+//   }
+//   let obj = {}
+//   for (let each in info) {
+//     obj[each] = info[each].follows.map(element => ages[element] > 30 ? 1 : 0).reduce((a,b)=> a+b)
+//   }
+//   return Object.keys(obj).filter(element => obj[element] === Math.max(...Object.values(obj)))[0];
+// }
+
+
+
+// console.log(followsOver30(data))
+
+function reach (items) {
+  let info = printAll(items)
+  let obj = {}
   for (let each in info) {
-    let follows = info[each].follows
-    let followedBy = info[each].followedBy
-    if (follows.filter(element => !followedBy.includes(element)).length > 0)
-    array.push(each) 
+    obj[each] = [... new Set (info[each].follows,  info[each].followedBy)].length
   }
-  return array
+  return obj
 }
-console.log(unrequitedFollowers(data))
+
+
+
+console.log(reach(data))
