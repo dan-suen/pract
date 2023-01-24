@@ -12,7 +12,7 @@ const data = {
   f03: {
     name: "Charlie",
     age: 35,
-    follows: ["f01", "f04", "f06"]
+    follows: ["f01", "f04", "f05", "f06"]
   },
   f04: {
     name: "Debbie",
@@ -31,13 +31,73 @@ const data = {
   }
 };
 
-function biggestFollower(items) {
+// function biggestFollower(items) {
+//   let obj = {}
+//   for (each in items) {
+//     obj[items[each].name] = items[each].follows.length
+//   }
+//   return Object.keys(obj).filter(element => obj[element] === Math.max(...Object.values(obj)))[0];
+// }
+// console.log(biggestFollower(data))
+
+// function mostPopular(items) {
+//   let array = []
+//   for (each in items) {
+//     array.push(... items[each].follows)
+//   }
+//   let arrayWithNames = array.map(element => items[element].name)
+//   console.log(arrayWithNames)
+//   let obj = {}
+//   for (let i = 0; i < arrayWithNames.length; i ++) {
+//     obj[arrayWithNames[i]] ? obj[arrayWithNames[i]] ++ : obj[arrayWithNames[i]] = 1
+//   }
+//   return Object.keys(obj).filter(element => obj[element] === Math.max(...Object.values(obj)))[0];
+
+// }
+// console.log(mostPopular(data))
+
+function printAll(items) {
   let obj = {}
-  for (each in items) {
-    obj[items[each].name] = items[each].follows.length
+  for (let each in items) {
+    let currentName = items[each].name
+    obj[currentName] = {
+      follows : items[each].follows.map(element => items[element].name),
+      followedBy : []
+    }
+    for (let each2 in items) {
+      if (items[each2].follows.includes(each)){
+        obj[currentName].followedBy.push(items[each2].name)
+      }
+    }
   }
-  return Object.keys(obj).filter(element => obj[element] === Math.max(...Object.values(obj)))[0];
+
+  return obj;
 }
-console.log(biggestFollower(data))
 
 
+
+// console.log(printAll(data))
+
+
+function unrequitedFollowers(items) {
+  let info = printAll(items);
+  //obj version
+  // let obj = {}
+  // for (let each in info) {
+  //   let follows = info[each].follows
+  //   let followedBy = info[each].followedBy
+  //   obj[each] = follows.filter(element => !followedBy.includes(element))
+  // }
+  // return obj
+
+  //array version
+  let array = []
+  for (let each in info) {
+    let follows = info[each].follows
+    let followedBy = info[each].followedBy
+    if (follows.filter(element => !followedBy.includes(element)).length > 0)
+    array.push(each) 
+  }
+  return array
+}
+console.log(unrequitedFollowers(data))
